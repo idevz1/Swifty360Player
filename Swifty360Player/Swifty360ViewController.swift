@@ -97,7 +97,11 @@ open class Swifty360ViewController: UIViewController, Swifty360CameraControllerD
     public init(withAVPlayer player: AVPlayer, motionManager: Swifty360MotionManagement?) {
         super.init(nibName: nil, bundle: nil)
         self.player = player
-        self.player.automaticallyWaitsToMinimizeStalling = false
+        if #available(iOS 10.0, *) {
+            self.player.automaticallyWaitsToMinimizeStalling = false
+        } else {
+            // Fallback on earlier versions
+        }
         self.motionManager = motionManager
     }
 
@@ -111,11 +115,15 @@ open class Swifty360ViewController: UIViewController, Swifty360CameraControllerD
             playerView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
             playerView.trailingAnchor.constraint(equalTo: margins.trailingAnchor)
             ])
-        let guide = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            playerView.topAnchor.constraint(equalToSystemSpacingBelow: guide.topAnchor, multiplier: 1.0),
-            guide.bottomAnchor.constraint(equalToSystemSpacingBelow: playerView.bottomAnchor, multiplier: 1.0)
-            ])
+        if #available(iOS 11.0, *) {
+            let guide = view.safeAreaLayoutGuide
+            NSLayoutConstraint.activate([
+                playerView.topAnchor.constraint(equalToSystemSpacingBelow: guide.topAnchor, multiplier: 1.0),
+                guide.bottomAnchor.constraint(equalToSystemSpacingBelow: playerView.bottomAnchor, multiplier: 1.0)
+                ])
+        } else {
+            // Fallback on earlier versions
+        }
     }
 
     override open func viewDidLoad() {

@@ -98,7 +98,11 @@ open class Swifty360View: UIView {
                 motionManager: Swifty360MotionManagement?) {
         super.init(frame: frame)
         self.player = player
-        self.player.automaticallyWaitsToMinimizeStalling = false
+        if #available(iOS 10.0, *) {
+            self.player.automaticallyWaitsToMinimizeStalling = false
+        } else {
+            // Fallback on earlier versions
+        }
         self.motionManager = motionManager
     }
 

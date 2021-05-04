@@ -234,7 +234,11 @@ open class Swifty360CameraController: NSObject, UIGestureRecognizerDelegate {
      - Parameter viewSize: `Swifty360ViewController` view size
      */
     func updateCameraFOV(withViewSize viewSize: CGSize) {
-        pointOfView.camera?.fieldOfView = Swifty360OptimalYFovForViewSize(viewSize: viewSize)
+        if #available(iOS 11.0, *) {
+            pointOfView.camera?.fieldOfView = Swifty360OptimalYFovForViewSize(viewSize: viewSize)
+        } else {
+            // Fallback on earlier versions
+        }
     }
 
     /**
